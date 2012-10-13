@@ -3,41 +3,60 @@
  * @date Thursday, 11 October 2012
  */
 
-/* System fronters */
+/* System headers */
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-/* User defined fronters */
+/* User defined headers */
 #include "debug.h"
+#include "singly_linked_list.h"
 
-struct sl_node* create_node(const void* info, size_t size);
+static struct sl_node* create_node(const void* info, size_t size);
+static void sl_node_free(struct sl_node* node);
 struct sl_list* create_sl_list(int (*comp)(const void*, const void*));
 int sl_list_empty(const struct sl_list* list);
-void  sl_list_add_back(struct sl_list* list, const void* elem, size_t size);
-void  sl_list_add_front(struct sl_list* list, const void* elem, size_t size);
+void  sl_list_add_back(struct sl_list* list,
+                       const void* elem,
+                       size_t size);
+void  sl_list_add_front(struct sl_list* list,
+                        const void* elem,
+                        size_t size);
+void sl_list_delete_front(struct sl_list* list);
 struct sl_node* sl_list_find(const struct sl_list* list,
                              const void* elem,
                              int (*comp)(const void*, const void*));
 struct sl_node* sl_list_find_nth(const struct sl_list* list,
-                                 int nth,
-                                 int (*comp)(const void*, const void*));
+                                 int nth);
+void sl_list_delete_nth(struct sl_list* list, int nth);
 struct sl_node* sl_list_mid_node(const struct sl_list* list);
-void sl_list_add_nth(struct sl_list* list, 
-                     const void* elem, 
+void sl_list_add_nth(struct sl_list* list,
+                     const void* elem,
                      size_t size,
                      int nth);
+void sl_list_repr(const struct sl_list* list,
+                  void (*print)(void*, FILE*),
+                  FILE* f);
 
-struct sl_node* create_sl_node(const void* info, size_t size)
+static struct sl_node* create_sl_node(const void* info, size_t size)
 {
-  struct sl_node new_node = malloc(sizeof(struct sl_node));
+  struct sl_node* new_node = malloc(sizeof(struct sl_node));
   DIE(new_node == NULL, "malloc");
 
   new_node->info = malloc(size);
-  DIE(sl_node == NULL, "malloc");
+  DIE(new_node == NULL, "malloc");
   memcpy(new_node->info, info, size);
   new_node->next = NULL;
 
   return new_node;
+}
+
+static void sl_node_free(struct sl_node* node)
+{
+  free(node->info);
+  node->info = NULL;
+  free(node);
+  node = NULL;
 }
 
 struct sl_list* create_sl_list(int (*comp)(const void*, const void*))
@@ -62,38 +81,65 @@ void  sl_list_add_back(struct sl_list* list, const void* elem, size_t size)
 {
   struct sl_node* new_node;
   if (list->length == 0) {
-    new_list->front = new_list->back = create_sl_node(elem, size);
+    list->front = list->back = create_sl_node(elem, size);
   } else {
     new_node = create_sl_node(elem, size);
     list->back->next = new_node;
     list->back = new_node;
   }
 
-  ++new_list->length;
+  ++list->length;
+}
+
+void sl_list_delete_front(struct sl_list* list)
+{
+  struct sl_node* del_node;
+  if (list->length > 0) {
+    del_node = list->front;
+    list->front = list->front->next;
+    sl_node_free(del_node);
+    --list->length;
+  }
 }
 
 void  sl_list_add_front(struct sl_list* list, const void* elem, size_t size)
 {
   struct sl_node* new_node;
   if (list->length == 0) {
-    new_list->front = new_list->back = create_sl_node(elem, size);
+    list->front = list->back = create_sl_node(elem, size);
   } else {
     new_node = create_sl_node(elem, size);
     new_node->next = list->front;
     list->front = new_node;
   }
 
-  ++new_list->length;
+  ++list->length;
+}
+
+void sl_list_delete_nth(struct sl_list* list, int nth)
+{
+  struct sl_node* prev_node;
+  struct sl_node* del_node;
+  if(nth >= 0 || nth < list->length) {
+    if (nth == 0) {
+      sl_list_delete_front(list);
+    } else {
+      prev_node = sl_list_find_nth(list, nth - 1);
+      del_node = prev_node->next;
+      prev_node->next = prev_node->next->next;
+      sl_node_free(del_node);
+      --list->length;
+    }
+  }
 }
 
 void sl_list_add_nth(struct sl_list* list,
                      const void* elem,
                      size_t size,
-                     int nth,
-                     int (*comp)(const void*, const void*))
+                     int nth)
 {
   struct sl_node* prev_node;
-
+  struct sl_node* new_node;
   if (nth >= -1 || nth < list->length) {
     if (nth == -1) {
       sl_list_add_front(list, elem, size);
@@ -101,6 +147,10 @@ void sl_list_add_nth(struct sl_list* list,
       sl_list_add_back(list, elem, size);
     } else {
       prev_node = sl_list_find_nth(list, nth);
+      new_node = create_sl_node(elem, size);
+      new_node->next = prev_node->next;
+      prev_node->next = new_node;
+      ++list->length;
     }
   }
 }
@@ -166,3 +216,16 @@ struct sl_node* sl_list_mid_node(const struct sl_list* list)
   return iter_mid;
 }
 
+void sl_list_repr(const struct sl_list* list,
+                  void (*print)(void*, FILE*),
+                  FILE* f)
+{
+  struct sl_node* iter;
+  fprintf(f, "l=%d\n", list->length);
+  for (iter = list->front; iter != NULL; iter = iter->next) {
+    print(iter->info, f);
+    fprintf(f, SEP);
+  }
+  fprintf(f, TERM);
+  fprintf(f, "\n");
+}

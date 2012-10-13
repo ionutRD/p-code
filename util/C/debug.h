@@ -5,7 +5,7 @@
 #define DIE(assertion, message)               \
   do {                                        \
     if (assertion) {                          \
-      fprintf(stderr,"error: %s:%s %s in %s", \
+      fprintf(stderr,"error: %s:%d %s in %s", \
               __FILE__,                       \
               __LINE__,                       \
               __func__, message);             \
