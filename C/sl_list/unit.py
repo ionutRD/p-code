@@ -42,6 +42,18 @@ class TestSimpleSinglyLinkedListOperations(unittest.TestCase):
     " Test add_back 2 "
     unittest_eq("test/test2", self.assertEqual)
 
+  def test_mid_1(self):
+    " Test mid 1 "
+    unittest_eq("test/test3", self.assertEqual)
+
+  def test_del_1(self):
+    " Test del 1 "
+    unittest_eq("test/test4", self.assertEqual)
+
+  def test_iter1(self):
+    " Test iter 1 "
+    unittest_eq("test/test5", self.assertEqual)
+
 if __name__ == "__main__":
   suite = unittest.TestLoader().\
   loadTestsFromTestCase(TestSimpleSinglyLinkedListOperations)

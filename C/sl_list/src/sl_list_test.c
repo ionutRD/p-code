@@ -115,6 +115,16 @@ int main(int argc, char** argv)
         printf("%lf\n", *pd);
         free(pd);
       }
+    } else if (strcmp(op, "mid") == 0) {
+      if (strcmp(type, "int") == 0) {
+        int *pi = sl_list_find_middle(&sll, size);
+        printf("%d\n", *pi);
+        free(pi);
+      } else if (strcmp(type, "float") == 0) {
+        double* pd = sl_list_find_middle(&sll, size);
+        printf("%lf\n", *pd);
+        free(pd);
+      }
     }
   }
 

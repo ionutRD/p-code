@@ -1,0 +1,11 @@
+int
+9
+add_back 1
+mid
+add_back 2
+mid
+add_back 3
+mid
+rev
+mid
+print
