@@ -81,7 +81,7 @@ void sl_list_add_back(struct sl_list* sll, const void* info, size_t size)
  *         to the first element
  * @return the value of the current interator
  */
-void* iterate(struct sl_list* sll, size_t size, int init)
+void* iterate(const struct sl_list* sll, size_t size, int init)
 {
   static struct sl_node* iter;
   if (init == 1) {
@@ -147,7 +147,7 @@ void sl_list_del_back(struct sl_list* sll)
  * @sll - a singly linked list
  * @size - the total size of the first element in the list
  */
-void* sl_list_top_front(struct sl_list* sll, size_t size)
+void* sl_list_top_front(const struct sl_list* sll, size_t size)
 {
   if (sll->size == 0) {
     return 0;
@@ -163,7 +163,7 @@ void* sl_list_top_front(struct sl_list* sll, size_t size)
  * @sll - a singly linked list
  * @size - the total size of the first element in the list
  */
-void* sl_list_top_back(struct sl_list* sll, size_t size)
+void* sl_list_top_back(const struct sl_list* sll, size_t size)
 {
   if (sll->size == 0) {
     return 0;
@@ -199,13 +199,44 @@ void sl_list_reverse(struct sl_list* sll)
 }
 
 /**
+ * Find the middle element of a singly linked list
+ * @sll - a singly linked list
+ * @size - the size of an element
+ * return the address of the middle element
+ */
+void* sl_list_find_middle(const struct sl_list* sll, size_t size)
+{
+  if (sll->size == 0) {
+    return 0;
+  }
+  int k = 0;
+  struct sl_node* middle = sll->front;
+  struct sl_node* last = sll->front;
+  void* result;
+
+  while (last != 0) {
+    last = last->next;
+    if (k == 1) {
+      middle = middle->next;
+    }
+    k = 1 - k;
+  }
+
+  result = malloc(size);
+  DIE(result == 0, "malloc");
+  memcpy(result, middle->key, size);
+
+  return result;
+}
+
+/**
  * Transform a list into a string representation
  * @sll - a singly linked list
  * @fts - a function that converts an element in the list into
  *        a string
  * @return a string representation of a list
  */
-char* sl_list_str(struct sl_list* sll, to_string_t fts)
+char* sl_list_str(const struct sl_list* sll, to_string_t fts)
 {
   int init_cap = INIT_STR_CAP;
   int actual_len = 0;

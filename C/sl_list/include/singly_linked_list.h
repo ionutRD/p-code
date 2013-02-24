@@ -21,11 +21,12 @@ void sl_list_add_front(struct sl_list*, const void*, size_t);
 void sl_list_add_back(struct sl_list*, const void*, size_t);
 void sl_list_del_front(struct sl_list*);
 void sl_list_del_back(struct sl_list*);
-void* sl_list_top_front(struct sl_list*, size_t);
-void* sl_list_top_back(struct sl_list*, size_t);
+void* sl_list_top_front(const struct sl_list*, size_t);
+void* sl_list_top_back(const struct sl_list*, size_t);
 void sl_list_reverse(struct sl_list*);
-void* iterate(struct sl_list*, size_t, int);
-char* sl_list_str(struct sl_list*, to_string_t);
+void* sl_list_find_middle(const struct sl_list*, size_t);
+void* iterate(const struct sl_list*, size_t, int);
+char* sl_list_str(const struct sl_list*, to_string_t);
 void sl_list_finalize(struct sl_list*);
 
 #endif /* SINGLY_LINKED_LIST_H */
