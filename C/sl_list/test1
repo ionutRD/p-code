@@ -1,0 +1,9 @@
+int
+7
+add_front 1
+add_back 3
+add_back 4
+iter_init
+iter
+iter
+iter

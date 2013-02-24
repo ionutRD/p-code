@@ -1,0 +1,21 @@
+CC = /bin/gcc
+CLFAGS = -Wall -Werror -pedantic -ggdb
+SRC = src
+INCL = include
+UTIL = ../util
+.PHONY: all clean
+
+all: exec
+
+exec: singly_linked_list.o sl_list_test.o
+	$(CC) $^ -o $@
+
+singly_linked_list.o: $(SRC)/singly_linked_list.c $(INCL)/singly_linked_list.h $(UTIL)/utils.h
+	$(CC) $(CFLAGS) -c $<
+
+sl_list_test.o: $(SRC)/sl_list_test.c $(INCL)/singly_linked_list.h $(UTIL)/utils.h
+	$(CC) $(CFLAGS) -c $<
+
+clean:
+	rm *.o
+	rm exec
