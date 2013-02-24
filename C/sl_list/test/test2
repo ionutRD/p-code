@@ -1,0 +1,26 @@
+int
+24
+add_back 1
+add_back 2
+add_back 3
+add_back 4
+add_back 5
+add_back 6
+add_back 7
+add_back 8
+add_back 9
+add_back 10
+add_back 11
+add_back 12
+add_back 13
+print
+del_back
+del_back
+del_back
+del_back
+del_back
+del_back
+del_back
+print
+add_front 0
+print

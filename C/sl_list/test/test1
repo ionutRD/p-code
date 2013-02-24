@@ -1,0 +1,9 @@
+int
+7
+add_back 1
+add_back 2
+add_back 3
+add_back 4
+print
+add_back 5
+print
