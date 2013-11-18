@@ -1,8 +1,0 @@
-int
-6
-add_front 1
-del_front
-del_front
-del_back
-print
-print
