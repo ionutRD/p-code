@@ -4,6 +4,7 @@
  */
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #define IN_WORD     0
 #define OUT_WORD    1
 
@@ -14,15 +15,18 @@ int is_in_word(char ch)
     return 0;
 }
 
-int count_words(const char *str)
+int count_words(const char *str, int *err)
 {
-    if (str == NULL)
+    if (str == NULL) {
+        *err = -1;
         return 0;
+    }
 
     int sz = strlen(str);
     int state = OUT_WORD;
     int no_words = 0;
 
+    *err = 0;
     for (int i = 0; i < sz; i++)
         if (state == OUT_WORD && is_in_word(str[i])) {
             ++no_words;
@@ -35,7 +39,10 @@ int count_words(const char *str)
 
 int main(int argc, char **argv)
 {
-    printf("Test1: ana      are     mere => %d\n", count_words("ana     are     mere"));
-    printf("Test2: hemisphere => %d\n", count_words("hemisphere"));
+    int err;
+    printf("Test1: ana      are     mere => %d\n", count_words("ana     are     mere", &err));
+    assert(count_words("ana     are    mere", &err) == 3 && err == 0);
+    printf("Test2: hemisphere => %d\n", count_words("hemisphere", &err));
+    assert(count_words("hemisphere", &err) && err == 0);
     return 0;
 }

@@ -15,16 +15,19 @@ typedef struct {
     int no_app;
 } char_info_t;
 
-char find_first_non_repeating(const char *str)
+char find_first_non_repeating(const char *str, int *err)
 {
-    if (str == NULL)
+    if (str == NULL) {
+        *err = -1;
         return '\0';
+    }
 
     char_info_t table[NO_OF_CHARS];
     int sz = strlen(str);
     int first_idx = INT_MAX;
     int first_char = '\0';
 
+    *err = 0;
     for (int i = 0; i < NO_OF_CHARS; i++) {
         table[i].index = -1;
         table[i].no_app = 0;
@@ -47,8 +50,9 @@ char find_first_non_repeating(const char *str)
 
 int main(int argc, char **argv)
 {
-    printf("Test 1: geeksforgeeks => %c\n", find_first_non_repeating("geeksforgeeks"));
-    printf("Test 2: ana are mere => %c\n", find_first_non_repeating("ana are mere"));
-    printf("Test 3: this is a dummy test => %c\n", find_first_non_repeating("this is a dummy test"));
+    int err;
+    printf("Test 1: geeksforgeeks => %c\n", find_first_non_repeating("geeksforgeeks", &err));
+    printf("Test 2: ana are mere => %c\n", find_first_non_repeating("ana are mere", &err));
+    printf("Test 3: this is a dummy test => %c\n", find_first_non_repeating("this is a dummy test", &err));
     return 0;
 }

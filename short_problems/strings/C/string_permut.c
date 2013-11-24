@@ -19,11 +19,14 @@ void swap(char *str, int i, int j)
     }
 }
 
-void print_permut(char *str)
+void print_permut(char *str, int *err)
 {
+    *err = 0;
     if (str != NULL) {
         int sz = strlen(str);
         do_print_permut(str, 0, sz);
+    } else {
+        *err = -1;
     }
 }
 
@@ -43,6 +46,7 @@ void do_print_permut(char *str, int k, int sz)
 
 int main(int argc, char **argv)
 {
-    print_permut(strdup("abc"));
+    int err = 0;
+    print_permut(strdup("abcd"), &err);
     return 0;
 }

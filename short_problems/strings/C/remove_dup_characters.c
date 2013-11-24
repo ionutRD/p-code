@@ -8,15 +8,18 @@
 #define NO_OF_CHARS 256
 
 
-char *strremdup(char *str)
+char *strremdup(char *str, int *err)
 {
     char table[NO_OF_CHARS] = { 0 };
     int init_idx = 0;
     int result_idx = 0;
     int len = strlen(str);
+    *err = 0;
 
-    if (str == NULL)
+    if (str == NULL) {
+        *err = -1;
         return NULL;
+    }
 
     while (init_idx < len) {
         if (!table[str[init_idx]]) {
@@ -33,8 +36,11 @@ char *strremdup(char *str)
 
 int main(int argc, char** argv)
 {
-    printf("Test 1: geeksforgeeks = %s\n", strremdup(strdup("geeksforgeeks")));
-    printf("Test 1: ana are mere = %s\n", strremdup(strdup("ana are mere")));
+    int  err = 0;
+    printf("Test 1: geeksforgeeks = %s\n", strremdup(strdup("geeksforgeeks"), &err));
+    assert(strcmp(strremdup(strdup("geeksforgeeks"), &err), "geksfor") == 0 && err == 0);
+    printf("Test 2: ana are mere = %s\n", strremdup(strdup("ana are mere"), &err));
+    assert(strcmp(strremdup(strdup("ana are mere"), &err), "an rem") == 0 && err == 0);
 
     return 0;
 }

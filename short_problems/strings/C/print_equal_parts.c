@@ -4,15 +4,20 @@
 #include <stdio.h>
 #include <string.h>
 
-void print_eq_parts(const char *str, int n)
+void print_eq_parts(const char *str, int n, int *err)
 {
-    if (str == NULL)
+    if (str == NULL) {
+        *err = -1;
         return ;
+    }
 
     int sz = strlen(str);
+    *err = 0;
 
-    if (n <= 0 || n > sz)
+    if (n <= 0 || n > sz) {
+        *err = -1;
         return ;
+    }
 
     if (n > sz)
         n = sz;
@@ -29,6 +34,7 @@ void print_eq_parts(const char *str, int n)
 
 int main(int argc, char **argv)
 {
-    print_eq_parts("geeksforgeeks", 3);
+    int err = 0;
+    print_eq_parts("geeksforgeeks", 3, &err);
     return 0;
 }
