@@ -12,7 +12,7 @@ def kth_v1(head, k):
     if k < 0:
         return None
     i = 0
-    second_t = head
+    second_it = head
     while i < k and second_it:
         second_it = second_it.next
         i += 1
