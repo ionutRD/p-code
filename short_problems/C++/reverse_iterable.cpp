@@ -1,5 +1,5 @@
 /**
- * Reverse a string in place.
+ * Reverse an iterable collection in place.
  */
 #include <algorithm>
 #include <iostream>
