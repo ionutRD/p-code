@@ -1,5 +1,6 @@
 #include <functional>
 #include <iostream>
+#include <iterator>
 #include <vector>
 
 using namespace std;
@@ -10,7 +11,7 @@ bool bin_search(InputIt first, InputIt last, const T &key, Compare comp = Compar
     if (first == last || first + 1 == last) {
         return false;
     }
-    auto middle = first + (last - first) / 2;
+    auto middle = first + (distance(first, last) >> 1);
     if (key == *middle) {
         return true;
     } else if (comp(key, *middle)) {
