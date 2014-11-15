@@ -1,5 +1,6 @@
 #include <functional>
 #include <iostream>
+#include <iterator>
 #include <vector>
 
 using namespace std;
@@ -8,7 +9,7 @@ template <typename InputIt, typename T, typename Compare = less<T>>
 bool bin_search(InputIt first, InputIt last, const T &key, Compare comp = Compare())
 {
     while (first < last && first + 1 < last) {
-        auto middle = first + (last - first) / 2;
+        auto middle = first + (distance(first, last) >> 1);
         if (key == *middle) {
             return true;
         } else if (comp(key, *middle)) {
