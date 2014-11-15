@@ -11,7 +11,7 @@ def binary_search_rec_aux(collection, inf, sup, key, comp):
     else:
         return binary_search_rec_aux(collection, mid, sup, key, comp)
 
-def binary_search_rec(collection, key, comp = lambda x, y : x < y):
+def binary_search_rec(collection, key, comp=lambda x, y : x < y):
     return binary_search_rec_aux(collection, 0, len(collection), key, comp)
 
 if __name__ == "__main__":
