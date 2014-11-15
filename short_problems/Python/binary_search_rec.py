@@ -3,7 +3,7 @@
 def binary_search_rec_aux(collection, inf, sup, key, comp):
     if inf == sup or inf + 1 == sup:
         return False;
-    mid = inf + (sup - inf) / 2
+    mid = inf + (sup - inf) // 2
     if key == collection[mid]:
         return True
     elif comp(key, collection[mid]):
@@ -21,6 +21,8 @@ if __name__ == "__main__":
     key1 = 4
     print(binary_search_rec(coll1, key1))
     key1 = 12
+    print(binary_search_rec(coll1, key1))
+    key1 = 13
     print(binary_search_rec(coll1, key1))
     coll1 = []
     print(binary_search_rec(coll1, key1))
