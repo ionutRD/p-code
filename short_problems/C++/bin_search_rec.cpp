@@ -8,7 +8,7 @@ using namespace std;
 template <typename InputIt, typename T, typename Compare = less<T>>
 bool bin_search(InputIt first, InputIt last, const T &key, Compare comp = Compare())
 {
-    if (first == last || first + 1 == last) {
+    if (first == last) {
         return false;
     }
     auto middle = first + (distance(first, last) >> 1);
@@ -16,7 +16,7 @@ bool bin_search(InputIt first, InputIt last, const T &key, Compare comp = Compar
         return true;
     } else if (comp(key, *middle)) {
         return bin_search(first, middle, key);
-    } else return bin_search(middle, last, key);
+    } else return bin_search(middle + 1, last, key);
 }
 
 int main()
